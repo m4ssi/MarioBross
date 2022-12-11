@@ -46,6 +46,8 @@ void free_targ_t ( targ_t a)
 {
 	free ( a.x);
 	free ( a.y);
+	free ( a.dx);
+	free ( a.dy);
 	free ( a.w_updated_f);
 	free ( a.moved_f);
 	free ( a.jumped_f);
