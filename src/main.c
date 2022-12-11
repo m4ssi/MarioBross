@@ -39,6 +39,7 @@ void gameLoopEvent ( targ_t * s)
 				d = 2 - d;
 				(*(s->dx)) = 0 + d;
 				if (d)	(*(s->moved_f)) = 1;
+				else	(*(s->jumped_f)) = 6;
 				pthread_mutex_unlock ( s->m_stdout);
 			}
 			break;
