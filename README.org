@@ -1,0 +1,15 @@
+#+AUTHOR: m4ssi
+#+DATE: December 2022
+
+* MarioBross
+
+Here an implementation of Super Mario Bross 3 using C and lib SDL2.
+
+The mai of this project is to imlemente a third party program with a 
+thread to manage displaying, a thread to manage the loop event and
+another one to manage the game system and variables.
+
+** Depedencies
+
+This program must be runned in a UNIX environnement since it using 
+pthread and manage the GUI and the events with the libsdl2.
