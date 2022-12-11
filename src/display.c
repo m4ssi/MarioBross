@@ -53,7 +53,7 @@ void displayGameScreen ( SDL_Renderer * r, SDL_Texture * t_background, SDL_Textu
 {
 	SDL_Rect l_pos = { .x = 0, .y = 0, .w = W_WIDTH, .h = W_HEIGHT};	
 	SDL_Rect l_src = { .x = 0, .y = 0, .w = W_WIDTH, .h = W_HEIGHT};	
-	SDL_Rect p_pos = { .x = x*S_BOX, .y = y*S_BOX, .w = w, .h = h};	
+	SDL_Rect p_pos = { .x = x*w, .y = y*h, .w = w, .h = h};	
 
 	SDL_RenderCopy ( r, t_background, NULL, &l_pos);
 	SDL_RenderCopy ( r, t_level, &l_src, &l_pos);

@@ -20,7 +20,7 @@ void * engine_routine ( void * args)
 		if ( moved_f)
 		{
 			pthread_mutex_lock ( a->m_stdout);
-			*(a->x) += *(a->dx);
+			a->c_main->x += *(a->dx);
 			*(a->dx) = 0;
 			*(a->w_updated_f) = 1;
 			*(a->moved_f) = 0;

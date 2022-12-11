@@ -38,8 +38,7 @@ void gameLoopEvent ( targ_t * s)
 
 				d = 2 - d;
 				(*(s->dx)) = 0 + d;
-				(*(s->moved_f)) = 1;
-				
+				if (d)	(*(s->moved_f)) = 1;
 				pthread_mutex_unlock ( s->m_stdout);
 			}
 			break;
@@ -60,6 +59,8 @@ int main(int argc, char* args[])
 	
 	targ_t a = init_arg_t( NULL, NULL, "res/mario.perso", "lvl/level01_01.bross");
 	a.m_stdout = &m;
+	a.c_main->x = 3;
+	a.c_main->y = 12;
 	*(a.dx) = 0;
 	*(a.dy) = 0;
 	*(a.x) = 3;
