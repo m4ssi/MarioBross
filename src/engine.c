@@ -53,15 +53,14 @@ void * engine_routine ( void * args)
 			if ( moved_f)
 			{
 				ret = ret || 1;
-				(*a->x) += *a->dx;
-				if ( abs(*a->x) == S_BOX)
+				pthread_mutex_lock( a->m_stdout);
+				(*a->x) = (*a->x + *a->dx) % S_BOX;
+				if ( *a->x == 0)
 				{
-					pthread_mutex_lock( a->m_stdout);
 					*(a->moved_f) = 0;
 					a->c_main->x += *a->dx;
-					*a->x = 0;
-					pthread_mutex_unlock( a->m_stdout);
 				}
+				pthread_mutex_unlock( a->m_stdout);
 			}
 
 			if ( ret)
