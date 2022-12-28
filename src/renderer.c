@@ -20,8 +20,9 @@ void * display_routine ( void * args)
 		
 		if ( w_updated_f == 1)
 		{
-
-			displayGameScreen ( a->r, a->t_background, a->t_level, a->t_char, (a->c_main->x), (a->c_main->y), (a->c_main->w), (a->c_main->h));
+			//~ SDL_Log ("Pos.x(%d).y(%d)", a->c_main->x, a->c_main->y
+			//~ displayGameScreen ( a->r, a->t_background, a->t_level, a->t_char, (a->c_main->x), (a->c_main->y), (a->c_main->w), (a->c_main->h));
+			displayGameScreen ( a->r, a->t_background, a->t_level, a->t_char, (a->c_main->x) * (a->c_main->w) + (*a->x), (a->c_main->y) * (a->c_main->h) + (*a->y), (a->c_main->w), (a->c_main->h));
 			pthread_mutex_lock ( a->m_stdout);
 			*(a->w_updated_f) = 0;
 			pthread_mutex_unlock ( a->m_stdout);

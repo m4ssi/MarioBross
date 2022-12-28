@@ -12,48 +12,64 @@ void * engine_routine ( void * args)
 	targ_t * a = (targ_t *) args;
 	int quit_f = *(a->quit_f),
 		moved_f = 0,
-		jumped_f = 0;
+		jumped_f = 0,
+		w_updated_f = 0;
 
 	double	t1 = gettime(),
 			t2 = 0.0f;
 	a->t_level = (SDL_Texture *) a->m_main->c_texture;
 	a->t_char = (SDL_Texture *) a->c_main->c_texture;
 	
+	int bool = 1;
+	
 	do
 	{
+		// TIMER
+		t2 = gettime();
+		if ( t2 - t1 < 1e-1)	continue;
+
 		pthread_mutex_lock( a->m_stdout);
 		quit_f = *(a->quit_f);
 		moved_f = *(a->moved_f);
-		if (!jumped_f)	jumped_f = *(a->jumped_f);
+		w_updated_f = *(a->w_updated_f);
+		jumped_f = *(a->jumped_f);
 		pthread_mutex_unlock( a->m_stdout);
 
-		t2 = gettime();
-		
-		if ( moved_f)
-		{
-			pthread_mutex_lock ( a->m_stdout);
-			a->c_main->x += *(a->dx);
-			*(a->dx) = 0;
-			*(a->w_updated_f) = 1;
-			*(a->moved_f) = 0;
-			pthread_mutex_unlock ( a->m_stdout);
-		}
-		if ( jumped_f)
-		{
-			if ( t2 - t1 > 7e-2)
+		int i = a->c_main->x,
+			j = a->c_main->y,
+			ret = 0;
+
+			// FALLING
+			if ( a->m_main->c_string[(j+1) * a->m_main->w + i] == ' ')
 			{
-				pthread_mutex_lock ( a->m_stdout);
-				if ( jumped_f > 3) a->c_main->y -= 1;
-				else 			   a->c_main->y += 1;
-				jumped_f--;
-				if ( jumped_f == 0) *(a->jumped_f) = 0;
-				*(a->w_updated_f) = 1;
-				pthread_mutex_unlock ( a->m_stdout);		
-				t1 = gettime();
-				// Detecter l'impact
-			
+				pthread_mutex_lock( a->m_stdout);
+				*a->y = (*a->y + 1) % S_BOX;
+				if ( *a->y == 0)	a->c_main->y++;
+				pthread_mutex_unlock( a->m_stdout);
+				ret = ret || 1;
 			}
-		}
+
+			// MOVING
+			if ( moved_f)
+			{
+				ret = ret || 1;
+				(*a->x) += *a->dx;
+				if ( abs(*a->x) == S_BOX)
+				{
+					pthread_mutex_lock( a->m_stdout);
+					*(a->moved_f) = 0;
+					a->c_main->x += *a->dx;
+					*a->x = 0;
+					pthread_mutex_unlock( a->m_stdout);
+				}
+			}
+
+			if ( ret)
+			{
+				*a->w_updated_f = 1;
+				t1 = gettime();
+			}
+		//~ }
 	} while (!quit_f);
 	
 	return NULL;

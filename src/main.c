@@ -39,7 +39,9 @@ void gameLoopEvent ( targ_t * s)
 				d = 2 - d;
 				(*(s->dx)) = 0 + d;
 				if (d)	(*(s->moved_f)) = 1;
-				else	(*(s->jumped_f)) = 6;
+				else	(*(s->jumped_f)) = 1;
+				
+				SDL_Log ("BILAN : P.x(%d).y (%d) | GLOB.x(%d).y(%d)", s->c_main->x, s->c_main->y, *s->x, *s->y);
 				pthread_mutex_unlock ( s->m_stdout);
 			}
 			break;
@@ -60,12 +62,12 @@ int main(int argc, char* args[])
 	
 	targ_t a = init_arg_t( NULL, NULL, "res/mario.perso", "lvl/level01_01.bross");
 	a.m_stdout = &m;
-	a.c_main->x = 3;
-	a.c_main->y = 12;
+	a.c_main->x = 0 * S_BOX;
+	a.c_main->y = 0 * S_BOX;
 	*(a.dx) = 0;
 	*(a.dy) = 0;
-	*(a.x) = 3;
-	*(a.y) = 12;
+	*(a.x) = 0;
+	*(a.y) = 0;
 	*(a.quit_f) = 0;
 	*(a.w_updated_f) = 1;
 
